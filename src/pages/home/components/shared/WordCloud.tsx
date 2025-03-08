@@ -25,8 +25,8 @@ const WordCloud = ({ width = 800, height = 800 }) => {
     const img = new Image();
     img.onload = () => {
       const canvas = document.createElement("canvas");
-      canvas.width = 500;
-      canvas.height = 500;
+      canvas.width = width;
+      canvas.height = height;
       const ctx = canvas.getContext("2d");
 
       if (!ctx) return;
