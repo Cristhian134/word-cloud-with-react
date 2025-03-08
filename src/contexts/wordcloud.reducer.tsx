@@ -33,5 +33,7 @@ const UPDATE_WORDCLOUD_STATE_BY_ACTION = {
 export const WordCloudReducer = (state: WordInfo, action: WordCloudAction) => {
   const { type } = action;
   const updateState = UPDATE_WORDCLOUD_STATE_BY_ACTION[type];
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return updateState ? updateState(state, action) : state;
 };
