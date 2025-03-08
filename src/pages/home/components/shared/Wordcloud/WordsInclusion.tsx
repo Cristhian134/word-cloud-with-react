@@ -34,7 +34,7 @@ export function WordsInclusion() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        setOpenSelect(true);
+        setOpenSelect(false);
       }
     };
 
