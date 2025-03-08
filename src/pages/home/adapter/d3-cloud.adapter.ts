@@ -3,9 +3,10 @@ import { Settings, WordInfo } from "../../../types";
 
 export function D3CloudAdapter(texts: WordInfo, settings: Settings): Word[] {
   const words = [];
+
   for (const text in texts) {
     const size = texts[text];
-    if (size > settings.minFrequency) {
+    if (size > settings.minFrequency && !settings.exclude.includes(text)) {
       const word = { text: text, size: size };
       words.push(word);
     }

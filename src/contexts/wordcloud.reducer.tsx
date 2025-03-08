@@ -7,15 +7,19 @@ const UPDATE_WORDCLOUD_STATE_BY_ACTION = {
     action: UpdateWordsAction
   ): WordInfo => {
     const { words } = action.payload;
-    const auxWords: WordInfo = { ...state };
-    for (const word in words) {
-      if (word in auxWords) {
-        auxWords[word] += words[word];
-      } else {
-        auxWords[word] = words[word];
+    if (words) {
+      const auxWords: WordInfo = { ...state };
+      for (const word in words) {
+        if (word in auxWords) {
+          auxWords[word] += words[word];
+        } else {
+          auxWords[word] = words[word];
+        }
       }
+      return auxWords;
+    } else {
+      return state;
     }
-    return auxWords;
   },
   [IMAGES_ACTION_TYPES.CLEAR_WORDS]: (state: WordInfo): WordInfo => {
     if (Object.keys(state).length > 0) {

@@ -1,5 +1,6 @@
 import { useWordCloud } from "../../../../hooks/useWordCloud";
 import { Settings } from "../../../../types";
+import { WordsInclusion } from "./Wordcloud/WordsInclusion";
 
 export function Options() {
   const { settings, setSettings } = useWordCloud();
@@ -35,6 +36,7 @@ export function Options() {
           onChange={(e) => handleChange("minFrequency", e.target.value)}
         />
       </label>
+      <WordsInclusion />
     </div>
   );
 }

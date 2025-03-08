@@ -1,7 +1,7 @@
 import { useWordCloud } from "../../../../../hooks/useWordCloud";
 import { CheckIcon, LoadingSpinnerAnimation } from "../../Icons";
 
-export function ProgressStates() {
+export function ProgressState() {
   const { progress, pdfs } = useWordCloud();
   const current = progress.current;
   const total = progress.total;

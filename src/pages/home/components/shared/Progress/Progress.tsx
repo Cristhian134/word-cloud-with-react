@@ -1,9 +1,9 @@
-import { ProgressStates } from "./states";
+import { ProgressState } from "./state";
 
 export function Progress() {
   return (
     <span>
-      <ProgressStates />
+      <ProgressState />
     </span>
   );
 }

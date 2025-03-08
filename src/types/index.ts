@@ -5,6 +5,7 @@ export type PdfBase = File;
 export type Settings = {
   maxWords: number;
   minFrequency: number;
+  exclude: string[];
   width: number;
   height: number;
 };
@@ -16,7 +17,7 @@ export type Progress = {
 
 export type WordCloudContextType = {
   words: WordInfo;
-  updateWords: ({ words }: { words: WordInfo }) => void;
+  updateWords: ({ file }: { file: File | null }) => void;
   clearWords: () => void;
   settings: Settings;
   setSettings: React.Dispatch<React.SetStateAction<Settings>>;
@@ -28,7 +29,7 @@ export type WordCloudContextType = {
 
 export type UpdateWordsAction = {
   type: "UPDATE_WORDS";
-  payload: { words: WordInfo };
+  payload: { words: WordInfo | null };
 };
 
 export type ClearWordsAction = {

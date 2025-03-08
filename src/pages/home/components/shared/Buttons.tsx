@@ -8,7 +8,7 @@ export function Buttons() {
     useWordCloud();
   const currentTotal = progress.current;
   const total = progress.total;
-  const disabled = currentTotal < total && currentTotal > 0 && total > 0;
+  const disabled = currentTotal < total || (currentTotal === 0 && total === 0);
 
   const downloadJPG = () => {
     if (disabled) return;
@@ -74,10 +74,10 @@ export function Buttons() {
   return (
     <div className="flex gap-3 md:flex-row flex-col md:w-fit w-full">
       <Button onClick={downloadJPG} disabled={disabled}>
-        Generar otra nube de palabras
+        Descargar imagen JPG
       </Button>
       <Button onClick={downloadTXT} disabled={disabled}>
-        Generar otra nube de palabras
+        Descargar TXT de palabras
       </Button>
       <Button onClick={restartWordcloud} disabled={disabled}>
         Generar otra nube de palabras

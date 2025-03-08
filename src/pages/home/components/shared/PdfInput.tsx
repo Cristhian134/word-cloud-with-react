@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import { useDropzone } from "react-dropzone";
-import { processPdf } from "../../services/pdfjs-dist.service";
 import { useWordCloud } from "../../../../hooks/useWordCloud";
 import { UploadFileIcon } from "../Icons";
+import { ToastContainer } from "react-toastify";
 
 export function PdfInput() {
-  const { updateWords, setProgress, pdfs, setPdfs } = useWordCloud();
+  const { updateWords, setProgress, setPdfs, pdfs } = useWordCloud();
 
   const onDrop = (acceptedFiles: File[]) => {
     setProgress((prev) => ({
@@ -13,10 +13,14 @@ export function PdfInput() {
       total: prev.total + acceptedFiles.length,
     }));
     acceptedFiles.map(async (file) => {
-      await setPdfs((prev) => [...prev, file]);
+      const exists = pdfs.some((pdf) => pdf.name === file.name);
+      if (exists) {
+        console.warn(`El archivo ${file.name} ya fue agregado.`);
+        return;
+      }
 
-      const newWords = await processPdf(file);
-      updateWords({ words: newWords });
+      await setPdfs((prev) => [...prev, file]);
+      await updateWords({ file });
       setProgress((prev) => ({ ...prev, current: prev.current + 1 }));
     });
   };
@@ -52,6 +56,7 @@ export function PdfInput() {
       <p className="text-sm text-gray-500 dark:text-gray-400">
         Formatos permitidos: .pdf
       </p>
+      <ToastContainer />
     </div>
   );
 }

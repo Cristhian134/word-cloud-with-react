@@ -16,22 +16,27 @@ const WordCloud = () => {
 
   useEffect(() => {
     if (current < total || (current === 0 && total === 0)) return;
-
     const layout = cloud()
       .size([settings.width, settings.height])
       .words(wordsConverted)
       .padding(1)
       .rotate(() => (Math.random() > 0.5 ? 0 : 90))
       .font("Impact")
-      .fontSize((d) => Math.max(10, (d.size || 0) * 0.8))
+      .fontSize((d) => Math.max(10, Math.min(100, (d.size || 0) * 0.8)))
       .spiral("archimedean")
-      .on("end", (words) => {
-        wordDataRef.current = words;
+      .on("end", () => {
+        wordDataRef.current = wordsConverted;
         drawWords();
       });
 
     layout.start();
-  }, [wordsConverted.length]);
+  }, [
+    current,
+    wordsConverted.length,
+    settings.exclude.length,
+    settings.minFrequency,
+    settings.maxWords,
+  ]);
 
   const drawWords = () => {
     if (!svgRef.current) return;

@@ -1,17 +1,21 @@
 import { useReducer, useState } from "react";
-import { PdfBase, Progress, Settings, WordInfo } from "../types";
+import { PdfBase, Progress, Settings } from "../types";
 import {
   PdfsInitialState,
   ProgressInitialState,
   SettingsInitialState,
+  WordCloudInitialState,
 } from "../consts";
 import { WordCloudReducer } from "./wordcloud.reducer";
 import { WordCloudContext } from "./wordcloud.context";
+import { processPdf } from "../pages/home/services/pdfjs-dist.service";
 
 function useWordCloudReducer() {
-  const [state, dispatch] = useReducer(WordCloudReducer, {});
+  const [state, dispatch] = useReducer(WordCloudReducer, WordCloudInitialState);
 
-  const updateWords = ({ words }: { words: WordInfo }) => {
+  const updateWords = async ({ file }: { file: File | null }) => {
+    const words = file ? await processPdf(file) : null;
+
     dispatch({
       type: "UPDATE_WORDS",
       payload: { words },
