@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { WordCloudContext } from "../contexts/WordCloud";
+import { WordCloudContext } from "../contexts/wordcloud.context";
 
 export function useWordCloud() {
   const wordCloudContext = useContext(WordCloudContext);

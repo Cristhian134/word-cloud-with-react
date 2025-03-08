@@ -15,7 +15,7 @@ function cleanText(text: string): string {
   return newText;
 }
 
-export async function processPdf(pdfFile: File) {
+export async function processPdf(pdfFile: File): Promise<WordInfo> {
   const url = URL.createObjectURL(pdfFile);
   const texts: WordInfo = {};
 
