@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import cloud from "d3-cloud";
+import cloud, { Word } from "d3-cloud";
 import { useWordCloud } from "../../../../hooks/useWordCloud";
 import { D3CloudAdapter } from "../../adapter/d3-cloud.adapter";
 
@@ -15,7 +15,6 @@ const WordCloud = ({ width = 800, height = 800 }) => {
     const svgElement = document.getElementById("wordcloud");
     if (!svgElement) return;
 
-    // Convertir SVG a una cadena de texto
     const serializer = new XMLSerializer();
     const svgString = serializer.serializeToString(svgElement);
     const svgBlob = new Blob([svgString], {
@@ -23,7 +22,6 @@ const WordCloud = ({ width = 800, height = 800 }) => {
     });
     const url = URL.createObjectURL(svgBlob);
 
-    // Crear una imagen
     const img = new Image();
     img.onload = () => {
       const canvas = document.createElement("canvas");
@@ -31,20 +29,17 @@ const WordCloud = ({ width = 800, height = 800 }) => {
       canvas.height = 500;
       const ctx = canvas.getContext("2d");
 
-      // Rellenar con un fondo blanco para JPG
+      if (!ctx) return;
+
       ctx.fillStyle = "white";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Dibujar la imagen SVG en el canvas
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-      // Descargar como JPG
       const link = document.createElement("a");
       link.download = "wordcloud.jpg";
       link.href = canvas.toDataURL("image/jpeg", 1.0);
       link.click();
 
-      // Limpiar memoria
       URL.revokeObjectURL(url);
     };
 
@@ -57,11 +52,11 @@ const WordCloud = ({ width = 800, height = 800 }) => {
     const layout = cloud()
       .size([width, height])
       .words(wordsConverted)
-      .padding(1) // Reducir padding para juntar más las palabras
-      .rotate(() => (Math.random() > 0.5 ? 0 : 90)) // Distribuir rotaciones
+      .padding(1)
+      .rotate(() => (Math.random() > 0.5 ? 0 : 90))
       .font("Impact")
-      .fontSize((d) => Math.max(10, d.size * 0.8)) // Ajustar tamaño mínimo
-      .spiral("archimedean") // Mejora la distribución
+      .fontSize((d) => Math.max(10, (d.size || 0) * 0.8))
+      .spiral("archimedean")
       .on("end", setWordData);
 
     layout.start();
@@ -71,7 +66,7 @@ const WordCloud = ({ width = 800, height = 800 }) => {
     if (total !== currentTotal) return;
 
     const svg = d3.select(svgRef.current);
-    svg.selectAll("*").remove(); // Limpiar el SVG antes de renderizar
+    svg.selectAll("*").remove();
 
     const group = svg
       .append("g")
@@ -82,12 +77,15 @@ const WordCloud = ({ width = 800, height = 800 }) => {
       .data(wordData)
       .enter()
       .append("text")
-      .style("font-size", (d) => `${d.size}px`)
+      .style("font-size", (d: Word) => `${d.size || 0}px`)
       .style("font-family", "Impact")
       .attr("text-anchor", "middle")
       .attr("fill", () => d3.schemeCategory10[Math.floor(Math.random() * 10)])
-      .attr("transform", (d) => `translate(${d.x}, ${d.y}) rotate(${d.rotate})`)
-      .text((d) => d.text);
+      .attr(
+        "transform",
+        (d: Word) => `translate(${d.x}, ${d.y}) rotate(${d.rotate})`
+      )
+      .text((d: Word) => d.text || "");
   }, [wordData, width, height]);
 
   return (

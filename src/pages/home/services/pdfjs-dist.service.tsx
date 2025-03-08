@@ -8,10 +8,10 @@ import nlp from "compromise";
 function cleanText(text: string): string {
   const removed = nlp(text).nouns().out("array").join(" ");
   const newText = removeStopwords(removed.split(" "))
-    .join(" ") // Convertir a minúsculas
-    .replace(/[^\p{L}\s]/gu, "") // Eliminar signos de puntuación y números (manteniendo letras y espacios)
-    .replace(/\s+/g, " ") // Reemplazar múltiples espacios por uno solo
-    .trim(); // Eliminar espacios al inicio y final;
+    .join(" ")
+    .replace(/[^\p{L}\s]/gu, "")
+    .replace(/\s+/g, " ")
+    .trim();
   return newText;
 }
 

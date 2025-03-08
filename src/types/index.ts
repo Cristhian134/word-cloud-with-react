@@ -11,11 +11,11 @@ export type PdfBase = {
 
 export type WordCloudContextType = {
   pdfs: PdfBase[];
+  setPdfs: React.Dispatch<React.SetStateAction<PdfBase[]>>;
   words: WordInfo;
-  setWords: any;
-  setPdfs: any;
+  setWords: React.Dispatch<React.SetStateAction<WordInfo>>;
   total: number;
-  setTotal: any;
+  setTotal: React.Dispatch<React.SetStateAction<number>>;
   currentTotal: number;
-  setCurrentTotal: any;
+  setCurrentTotal: React.Dispatch<React.SetStateAction<number>>;
 };

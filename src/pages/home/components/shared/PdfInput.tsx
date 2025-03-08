@@ -1,14 +1,12 @@
 import clsx from "clsx";
 import { useDropzone } from "react-dropzone";
 import { processPdf } from "../../services/pdfjs-dist.service";
-import { useState } from "react";
-import WordCloud from "./WordCloud";
 import { useWordCloud } from "../../../../hooks/useWordCloud";
 
 export function PdfInput() {
   const { words, setWords, setTotal, setCurrentTotal } = useWordCloud();
 
-  const onDrop = (acceptedFiles) => {
+  const onDrop = (acceptedFiles: File[]) => {
     setTotal((prev) => acceptedFiles.length + prev);
     acceptedFiles.forEach(async (file) => {
       const newWords = await processPdf(file);
@@ -25,7 +23,7 @@ export function PdfInput() {
     });
   };
 
-  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { "application/pdf": [] },
     onDrop,
   });
