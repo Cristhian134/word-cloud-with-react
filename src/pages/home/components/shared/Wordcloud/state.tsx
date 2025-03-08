@@ -20,7 +20,7 @@ export function WordCloudState({
       </div>
     ),
     PROCESSED: (
-      <div className="w-full h-auto bg-white border-[1px] border-gray-200">
+      <div className="w-full h-auto bg-white border-[1px] border-gray-200 flex justify-center items-center">
         <svg
           id="wordcloud"
           ref={svgRef}
@@ -43,9 +43,5 @@ export function WordCloudState({
     }
   };
 
-  return (
-    <div className="w-full h-auto bg-white flex justify-center items-center">
-      {display[state()]}
-    </div>
-  );
+  return <div className="w-full h-auto bg-white">{display[state()]}</div>;
 }
