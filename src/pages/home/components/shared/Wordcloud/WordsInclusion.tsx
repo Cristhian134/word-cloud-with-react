@@ -34,7 +34,7 @@ export function WordsInclusion() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        setOpenSelect(true);
+        setOpenSelect(false);
       }
     };
 
@@ -42,7 +42,7 @@ export function WordsInclusion() {
     return () => window.removeEventListener("click", handleClickOutside);
   }, []);
 
-  const handleChange = (
+  const handleChangeOpen = (
     value: boolean,
     word: string,
     exclude: boolean,
@@ -106,7 +106,7 @@ export function WordsInclusion() {
                           <span>{size}</span>
                           <input
                             onChange={(e) => {
-                              handleChange(
+                              handleChangeOpen(
                                 e.target.checked,
                                 text || "",
                                 true,
@@ -138,7 +138,7 @@ export function WordsInclusion() {
                         </span>
                         <input
                           onChange={(e) => {
-                            handleChange(
+                            handleChangeOpen(
                               e.target.checked,
                               text || "",
                               false,
