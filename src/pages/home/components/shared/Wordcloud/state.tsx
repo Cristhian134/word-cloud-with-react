@@ -43,5 +43,9 @@ export function WordCloudState({
     }
   };
 
-  return <div className="w-full h-auto bg-white">{display[state()]}</div>;
+  return (
+    <div className="w-full h-auto bg-white flex justify-center items-center">
+      {display[state()]}
+    </div>
+  );
 }
