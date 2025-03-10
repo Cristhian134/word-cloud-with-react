@@ -5,11 +5,11 @@ import { WordsInclusion } from "./Wordcloud/WordsInclusion";
 export function Options() {
   const { settings, setSettings } = useWordCloud();
 
-  const handleChange = (key: string, value: number | string) => {
-    if (/^\d*$/.test(value.toString()) && Number(value) >= 1) {
+  const handleChange = (key: string, value: string) => {
+    if (/^\d*$/.test(value.toString())) {
       setSettings((prev: Settings) => ({
         ...prev,
-        [key]: Number(value).toString(),
+        [key]: value === "" ? "1" : value,
       }));
     }
   };
@@ -31,6 +31,7 @@ export function Options() {
         <input
           className="border w-20 max-[400px]:w-full border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="number"
+          min={1}
           placeholder="20"
           value={settings.minFrequency}
           onChange={(e) => handleChange("minFrequency", e.target.value)}

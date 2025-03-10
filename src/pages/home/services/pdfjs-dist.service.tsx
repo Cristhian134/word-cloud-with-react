@@ -33,10 +33,12 @@ export async function processPdf(pdfFile: File): Promise<WordInfo> {
         const sentence = cleanText(item.str);
         if (sentence) {
           sentence.split(" ").forEach((word) => {
-            if (word in texts && word.length > 1) {
+            if (word in texts) {
               texts[word]++;
             } else {
-              texts[word] = 0;
+              if (word.length > 1) {
+                texts[word] = 0;
+              }
             }
           });
         }

@@ -1,18 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { useWordCloud } from "../../../../../hooks/useWordCloud";
 import clsx from "clsx";
-import { Word } from "d3-cloud";
 
 export function WordsInclusion() {
   const ref = useRef<HTMLDivElement>(null);
   const [openSelect, setOpenSelect] = useState(false);
   const { words, settings, setSettings } = useWordCloud();
 
-  const wordsIncluded: Word[] = [];
-  const wordsExcluded: Word[] = [];
+  const wordsIncluded: { text: string; size: number }[] = [];
+  const wordsExcluded: { text: string; size: number }[] = [];
 
   for (const word in words) {
-    const wordItem: Word = {
+    const wordItem: { text: string; size: number } = {
       size: words[word],
       text: word,
     };
@@ -133,22 +132,25 @@ export function WordsInclusion() {
                   {wordsExcluded.map(({ text, size }, idx) => {
                     return (
                       <li className="flex justify-between" key={idx}>
-                        <span>
-                          {text} | {size}
+                        <span className="w-full text-ellipsis" title={text}>
+                          ({idx}) {text}
                         </span>
-                        <input
-                          onChange={(e) => {
-                            handleChangeOpen(
-                              e.target.checked,
-                              text || "",
-                              false,
-                              size || 0
-                            );
-                          }}
-                          title="Click para incluir"
-                          type="checkbox"
-                          className="w-6 h-6"
-                        />
+                        <span className="flex gap-2 justify-between items-center">
+                          <span>{size}</span>
+                          <input
+                            onChange={(e) => {
+                              handleChangeOpen(
+                                e.target.checked,
+                                text || "",
+                                false,
+                                size || 0
+                              );
+                            }}
+                            title="Click para incluir"
+                            type="checkbox"
+                            className="w-6 h-6"
+                          />
+                        </span>
                       </li>
                     );
                   })}

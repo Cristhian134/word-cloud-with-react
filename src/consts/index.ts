@@ -6,11 +6,11 @@ export const IMAGES_ACTION_TYPES = {
 } as const;
 
 export const SettingsInitialState: Settings = {
-  maxWords: 5,
+  maxWords: 50,
   exclude: [],
   minFrequency: 5,
-  width: 800,
-  height: 800,
+  width: 1200,
+  height: 1200,
 };
 
 export const ProgressInitialState: Progress = {
@@ -20,15 +20,4 @@ export const ProgressInitialState: Progress = {
 
 export const PdfsInitialState: PdfBase[] = [];
 
-export const WordCloudInitialState: WordInfo = {
-  // tas: 4,
-  // asdad: 4,
-  // adasd: 4,
-  // asagsddad: 4,
-  // tadfgds: 4,
-  // asdfgddad: 4,
-  // dgdf: 4,
-  // adfgdfsdad: 4,
-  // tdfgas: 4,
-  // asddfgad: 4,
-};
+export const WordCloudInitialState: WordInfo = {};

@@ -2,6 +2,8 @@ export type WordInfo = Record<string, number>;
 
 export type PdfBase = File;
 
+export type Word = [string, number];
+
 export type Settings = {
   maxWords: number;
   minFrequency: number;

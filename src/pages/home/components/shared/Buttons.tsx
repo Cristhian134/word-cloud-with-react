@@ -1,5 +1,5 @@
 import { useWordCloud } from "../../../../hooks/useWordCloud";
-import { D3CloudAdapter } from "../../adapter/d3-cloud.adapter";
+import { Wordcloud2JsAdapter } from "../../adapter/wordcloud2Js.adapter";
 import { PdfsInitialState, ProgressInitialState } from "../../../../consts";
 import Button from "../ui/Button";
 
@@ -13,45 +13,24 @@ export function Buttons() {
   const downloadJPG = () => {
     if (disabled) return;
 
-    const svgElement = document.getElementById("wordcloud");
-    if (!svgElement) return;
+    const canvas = document.getElementById(
+      "wordcloud"
+    ) as HTMLCanvasElement | null;
+    if (!canvas) return;
 
-    const serializer = new XMLSerializer();
-    const svgString = serializer.serializeToString(svgElement);
-    const svgBlob = new Blob([svgString], {
-      type: "image/svg+xml;charset=utf-8",
-    });
-    const url = URL.createObjectURL(svgBlob);
-
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = settings.width;
-      canvas.height = settings.height;
-      const ctx = canvas.getContext("2d");
-
-      if (!ctx) return;
-
-      ctx.fillStyle = "white";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-      const link = document.createElement("a");
-      link.download = "wordcloud-imagen.jpg";
-      link.href = canvas.toDataURL("image/jpeg", 1.0);
-      link.click();
-
-      URL.revokeObjectURL(url);
-    };
-
-    img.src = url;
+    const a = document.createElement("a");
+    const url = canvas.toDataURL("image/jpeg");
+    a.href = url;
+    a.download = "wordcloud-imagen.jpg";
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const downloadTXT = () => {
     if (disabled) return;
 
-    const wordcloud = D3CloudAdapter(words, settings);
-    const content = wordcloud.map((item) => item.text).join("\n");
+    const wordcloud = Wordcloud2JsAdapter(words, settings);
+    const content = wordcloud.map((item) => `${item[0]} ${item[1]}`).join("\n");
     const blob = new Blob([content], { type: "text/plain" });
 
     const link = document.createElement("a");
